@@ -18,14 +18,22 @@ namespace MoodAnalyzer
         //Method to return the type of Mood
         public string Mood()
         {
-            if (message.ToLower().Contains("happy"))
+            try
             {
+                if (message.ToLower().Contains("happy"))
+                {
+                    return "happy";
+                }
+                else
+                {
+                    return "sad";
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine(ex.Message);
                 return "happy";
             }
-            else
-            {
-                return "sad";
-            }                
         }
     }
 }
