@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MoodAnalyzer
 {
-    public class MoodAnalyzerFactory
+    public class MoodAnalyzerReflector
     {
         /// <summary>
         /// CreateMoodAnalyse method to create object of MoodAnalyse class.
@@ -127,8 +127,8 @@ namespace MoodAnalyzer
         {
             try
             {
-                Type type = Type.GetType("MoodAnalyser.MoodAnalyser");
-                object moodAnalyseObject = MoodAnalyzerFactory.CreateMoodAnalyserParameterizedConstructor("MoodAnalyzer.AnalyzeMood", "AnalyzeMood", message);
+                Type type = Type.GetType("MoodAnalyzer.AnalyzeMood");
+                object moodAnalyseObject = MoodAnalyzerReflector.CreateMoodAnalyserParameterizedConstructor("MoodAnalyzer.AnalyzeMood", "AnalyzeMood", message);
                 MethodInfo methodInfo = type.GetMethod(methodName);
                 object mood = methodInfo.Invoke(moodAnalyseObject, null);
                 return mood.ToString();
