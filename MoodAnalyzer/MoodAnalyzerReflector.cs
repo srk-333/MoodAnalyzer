@@ -138,5 +138,30 @@ namespace MoodAnalyzer
                 throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, "No method found");
             }
         }
+        /// <summary>
+        /// Use reflection to set field dynamically.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="fieldName"></param>
+        /// <returns></returns>
+        public static string SetFieldDynamic(string message, string fieldName)
+        {
+            try
+            {
+                AnalyzeMood moodAnalyze = new AnalyzeMood();
+                Type type = typeof(AnalyzeMood);
+                FieldInfo fieldInfo = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+                if (message == null)
+                {
+                    throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NULL_MOOD, "Message should not be null");
+                }
+                fieldInfo.SetValue(moodAnalyze, message);
+                return moodAnalyze.message;
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_FIELD, "Field not found");
+            }
+        }
     }
 }
