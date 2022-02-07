@@ -28,7 +28,7 @@ namespace MoodAnalyzer
             Match result = Regex.Match(className, pattern);
             // if true then create object.
             if (result.Success)
-            { 
+            {
                 try
                 {
                     Assembly executing = Assembly.GetExecutingAssembly();
@@ -55,6 +55,41 @@ namespace MoodAnalyzer
         /// <param name="message"></param>
         /// <returns></returns>
         public static object CreateMoodAnalyserParameterizedConstructor(string className, string constructorName, string message)
+        {
+            Type type = Type.GetType(className);
+            try
+            {
+                if (type.FullName.Equals(className) || type.Name.Equals(className))
+                {
+                    if (type.Name.Equals(constructorName))
+                    {
+                        ConstructorInfo info = type.GetConstructor(new[] { typeof(string) });
+                        object instance = info.Invoke(new object[] { message });
+                        return instance;
+                    }
+                    else
+                    {
+                        throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_CONSTRUCTOR, "Constructor not found");
+                    }
+                }
+                else
+                {
+                    throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_CLASS, "Class not found");
+                }
+            }
+            catch (Exception e)
+            {
+                return e;
+            }
+        }
+        /// <summary>
+        /// dry principle optional variables
+        /// </summary>
+        /// <param name="className"></param>
+        /// <param name="constructorName"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static object CreateMoodAnalyserOptionalVariable(string className, string constructorName, string message, string msg = "I am optional variable")
         {
             Type type = Type.GetType(className);
             try
